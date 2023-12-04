@@ -2,7 +2,10 @@ package edu.uga.cs.rideshareapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,12 +25,18 @@ public class HomePage extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         String userEmail = user.getEmail();
-        String displayName = user.getDisplayName();
 
-        TextView textView2 = findViewById(R.id.textView5);
         TextView textView = findViewById(R.id.textView4);
+        Button button = findViewById(R.id.button4);
 
         textView.setText(userEmail);
-        textView2.setText(displayName);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, MakeRide.class);
+                startActivity(intent);
+            }
+        });
     }
 }
