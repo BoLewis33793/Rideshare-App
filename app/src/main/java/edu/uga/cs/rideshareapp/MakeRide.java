@@ -37,6 +37,8 @@ public class MakeRide extends AppCompatActivity {
 
         Button create = findViewById(R.id.button3);
 
+        mAuth = FirebaseAuth.getInstance();
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
