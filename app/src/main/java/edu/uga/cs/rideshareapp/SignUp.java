@@ -25,6 +25,7 @@ public class SignUp extends AppCompatActivity {
     EditText editTextEmail, editTextPassword, editTextFirstName, editTextLastName;
     Boolean switchState;
     Switch userType;
+    String id;
     Button signUpButton;
     private static final String TAG = "SignUpActivity";
     private FirebaseAuth mAuth;
@@ -78,8 +79,7 @@ public class SignUp extends AppCompatActivity {
                             }
                         });
 
-                FirebaseUser user = mAuth.getCurrentUser();
-                String id = user.getUid();
+                id = mAuth.getCurrentUser().getUid();
                 String userType;
 
                 if (switchState == true) {
