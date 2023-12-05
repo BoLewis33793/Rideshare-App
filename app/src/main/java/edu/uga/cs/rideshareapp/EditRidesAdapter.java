@@ -23,16 +23,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class EditRidesAdapter extends RecyclerView.Adapter<EditRidesAdapter.MyViewHolder> {
 
     Context context;
     ArrayList<Ride> list;
-    private static final String TAG = "MyAdapter";
+    private static final String TAG = "EditRidesAdapter";
     FirebaseAuth mAuth;
     FirebaseDatabase db;
     DatabaseReference reference;
 
-    public MyAdapter(Context context, ArrayList<Ride> list) {
+    public EditRidesAdapter(Context context, ArrayList<Ride> list) {
         this.context = context;
         this.list = list;
     }
@@ -40,7 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.ride_card, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.edit_card, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -55,30 +55,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.date.setText(ride.getDate());
         holder.time.setText(ride.getTime());
 
-        holder.acceptButton.setOnClickListener(new View.OnClickListener() {
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((ride.getRider()).equals(user.getUid())) {
-                    Log.w(TAG, "User can not accept their own ride.");
-                    Toast.makeText(context, "Cannot accept your own ride!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, EditRide.class);
+                context.startActivity(intent);
+            }
+        });
 
-                } else {
-                    ride.setAccepted(true);
-                    ride.setAcceptedBy(user.getUid());
-                    Log.d(TAG, "Driver: " + ride.getAcceptedBy());
-                    Log.d(TAG, "Accept State: " + ride.isAccepted());
-
-                    db = FirebaseDatabase.getInstance();
-                    reference = db.getReference("Rides");
-                    reference.child(ride.getKey()).setValue(ride).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Log.d(TAG, "Successfully updated except state of ride.");
-                            Intent intent = new Intent(context, AllRidesList.class);
-                            context.startActivity(intent);
-                        }
-                    });
-                }
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EditRide.class);
+                context.startActivity(intent);
             }
         });
     }
@@ -90,7 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView destination, departure, date, time;
-        Button acceptButton;
+        Button editButton, deleteButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,7 +87,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             departure = itemView.findViewById(R.id.textDeparture);
             date = itemView.findViewById(R.id.textDate);
             time = itemView.findViewById(R.id.textTime);
-            acceptButton = itemView.findViewById(R.id.acceptButton);
+            editButton = itemView.findViewById(R.id.editButton);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
         }
     }
 }
+

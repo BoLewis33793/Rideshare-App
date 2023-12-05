@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,8 +40,12 @@ public class AllRidesList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     Ride ride = dataSnapshot.getValue(Ride.class);
-                    Log.d(TAG, "Ride: " + ride);
-                    list.add(ride);
+
+                    if (ride.isAccepted()) {
+                        // Don't add to list
+                    } else {
+                        list.add(ride);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }

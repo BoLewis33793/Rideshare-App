@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,34 +18,38 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AllDrivesList extends AppCompatActivity {
+public class EditRidesList extends AppCompatActivity {
     RecyclerView recyclerView;
-    ArrayList<Drive> list;
+    ArrayList<Ride> list;
     DatabaseReference databaseReference;
-    DriveAdapter adapter;
-    private static final String TAG = "AllDrivesListActivity";
+    FirebaseAuth mAuth;
+    EditRidesAdapter adapter;
+    private static final String TAG = "EditRidesList";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_drives_list);
+        setContentView(R.layout.activity_edit_rides);
 
-        recyclerView = findViewById(R.id.recyclerview2);
-        databaseReference = FirebaseDatabase.getInstance().getReference("Drives");
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        recyclerView = findViewById(R.id.recyclerview3);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Rides");
         list = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new DriveAdapter(this, list);
+        adapter = new EditRidesAdapter(this, list);
         recyclerView.setAdapter(adapter);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    Drive drive = dataSnapshot.getValue(Drive.class);
+                    Ride ride = dataSnapshot.getValue(Ride.class);
 
-                    if (drive.isAccepted()) {
-                        // Don't add to list
+                    if ((ride.getRider()).equals(user.getUid())) {
+                        list.add(ride);
                     } else {
-                        list.add(drive);
+                        // Don't add to list
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -54,8 +60,5 @@ public class AllDrivesList extends AppCompatActivity {
 
             }
         });
-
-
     }
-
 }

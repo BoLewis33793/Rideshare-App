@@ -16,6 +16,15 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".EditRide"
+            android:exported="false" />
+        <activity
+            android:name=".EditRides"
+            android:exported="false" />
+        <activity
+            android:name=".EditRidesList"
+            android:exported="false" />
+        <activity
             android:name=".ProfileMenu"
             android:exported="false" />
         <activity

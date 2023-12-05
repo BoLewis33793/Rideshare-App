@@ -1,7 +1,7 @@
 package edu.uga.cs.rideshareapp;
 
 public class Drive {
-    String pickup_location, destination, driver, date, time, id, acceptedBy;
+    String pickup_location, destination, driver, date, time, id, acceptedBy, key;
     int points;
 
     boolean accepted, driverConfirm, riderConfirm;
@@ -10,7 +10,7 @@ public class Drive {
 
     }
 
-    public Drive(String pickup_location, String destination, String driver, String date, String time, String id, int points) {
+    public Drive(String pickup_location, String destination, String driver, String date, String time, String id, int points, String key) {
         this.pickup_location = pickup_location;
         this.destination = destination;
         this.driver = driver;
@@ -21,6 +21,7 @@ public class Drive {
         this.driverConfirm = false;
         this.riderConfirm = false;
         this.acceptedBy = "";
+        this.key = key;
     }
 
     public String getPickup_location() {
@@ -86,4 +87,8 @@ public class Drive {
     public boolean isRiderConfirm() { return riderConfirm; }
 
     public void setRiderConfirm(boolean riderConfirm) { this.riderConfirm = riderConfirm; }
+
+    public String getKey() { return key; }
+
+    public void setKey(String key) { this.key = key; }
 }
