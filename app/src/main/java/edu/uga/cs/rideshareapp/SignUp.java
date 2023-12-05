@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -71,8 +73,22 @@ public class SignUp extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(SignUp.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+
+                                    // Check the type of exception
+                                    Exception exception = task.getException();
+                                    if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                        // Handle invalid email format
+                                        Toast.makeText(SignUp.this, "Invalid email format.",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else if (exception instanceof FirebaseAuthUserCollisionException) {
+                                        // Handle duplicate email
+                                        Toast.makeText(SignUp.this, "Email is already in use. Try another one.",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Show a generic authentication failed toast
+                                        Toast.makeText(SignUp.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                         });

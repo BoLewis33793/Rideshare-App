@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
@@ -61,8 +63,18 @@ public class Login extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(Login.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+
+                                    // Check if the exception is due to an invalid user or invalid credentials
+                                    if (task.getException() instanceof FirebaseAuthInvalidUserException ||
+                                            task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                        // Show a toast for unknown email/password combination
+                                        Toast.makeText(Login.this, "Unknown email/password combination.",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Show a generic authentication failed toast
+                                        Toast.makeText(Login.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                         });

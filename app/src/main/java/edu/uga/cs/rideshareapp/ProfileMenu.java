@@ -3,8 +3,11 @@ package edu.uga.cs.rideshareapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +31,8 @@ public class ProfileMenu extends AppCompatActivity {
         setContentView(R.layout.activity_profile_menu);
 
         TextView email, firstName, lastName, points;
+
+        Button logoutButton = findViewById(R.id.button13);
 
         email = findViewById(R.id.emailTextView);
         firstName = findViewById(R.id.firstNameTextView);
@@ -72,5 +77,14 @@ public class ProfileMenu extends AppCompatActivity {
             }
         });
 
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                Intent intent = new Intent(ProfileMenu.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }
