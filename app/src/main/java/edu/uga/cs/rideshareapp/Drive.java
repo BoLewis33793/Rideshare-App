@@ -1,14 +1,14 @@
 package edu.uga.cs.rideshareapp;
 
 public class Drive {
-    String pickup_location, destination, driver, date, time;
+    String pickup_location, destination, driver, date, time, id;
     int points;
 
     public Drive() {
 
     }
 
-    public Drive(String pickup_location, String destination, String driver, String date, String time, int points) {
+    public Drive(String pickup_location, String destination, String driver, String date, String time, String id, int points) {
         this.pickup_location = pickup_location;
         this.destination = destination;
         this.driver = driver;
