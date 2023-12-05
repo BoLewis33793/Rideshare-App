@@ -2,7 +2,6 @@ package edu.uga.cs.rideshareapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,7 +112,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             departure = itemView.findViewById(R.id.textDeparture);
             date = itemView.findViewById(R.id.textDate);
             time = itemView.findViewById(R.id.textTime);
-            acceptButton = itemView.findViewById(R.id.acceptButton);
+            acceptButton = itemView.findViewById(R.id.confirmButton);
         }
     }
 }

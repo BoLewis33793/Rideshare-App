@@ -58,7 +58,10 @@ public class EditDrivesAdapter extends RecyclerView.Adapter<EditDrivesAdapter.My
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String key = drive.getKey();
+
                 Intent intent = new Intent(context, EditDrive.class);
+                intent.putExtra("key", key);
                 context.startActivity(intent);
             }
         });
