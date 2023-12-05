@@ -68,10 +68,25 @@ public class DriveAdapter extends RecyclerView.Adapter<DriveAdapter.MyViewHolder
 
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Drives");
-                    reference.child(drive.getKey()).setValue(drive).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    DatabaseReference newReference = db.getReference("Accepted-Drives");
+                    DatabaseReference finalReference = newReference.push();
+
+                    reference.child(drive.getKey()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Log.d(TAG, "Successfully updated except state of drive.");
+                            Log.d(TAG, "Successfully removed Drive.");
+                        }
+                    });
+
+                    String key = finalReference.getKey();
+
+                    drive.setKey(key);
+                    finalReference.setValue(drive).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Log.d(TAG, "Drive Key: " + finalReference.getKey());
+                            Log.d(TAG,"Successfully added drive to accepted database.");
                             Intent intent = new Intent(context, AllDrivesList.class);
                             context.startActivity(intent);
                         }

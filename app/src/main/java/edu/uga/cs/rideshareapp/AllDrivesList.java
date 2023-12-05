@@ -45,12 +45,7 @@ public class AllDrivesList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
-
-                    if (drive.isAccepted()) {
-                        // Don't add to list
-                    } else {
-                        list.add(drive);
-                    }
+                    list.add(drive);
                 }
                 adapter.notifyDataSetChanged();
             }
