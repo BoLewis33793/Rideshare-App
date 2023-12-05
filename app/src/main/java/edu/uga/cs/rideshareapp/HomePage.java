@@ -32,6 +32,7 @@ public class HomePage extends AppCompatActivity {
         Button allRides = findViewById(R.id.button6);
         Button allDrives = findViewById(R.id.button7);
         Button editRides = findViewById(R.id.button8);
+        Button editDrives = findViewById(R.id.button9);
 
         textView.setText(userEmail);
 
@@ -75,6 +76,15 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, EditRidesList.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        editDrives.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, EditDrivesList.class);
                 startActivity(intent);
                 finish();
             }
