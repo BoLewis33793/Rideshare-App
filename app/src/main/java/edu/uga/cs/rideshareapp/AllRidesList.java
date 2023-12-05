@@ -50,7 +50,5 @@ public class AllRidesList extends AppCompatActivity {
 
             }
         });
-
-
     }
 }
