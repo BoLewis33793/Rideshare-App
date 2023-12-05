@@ -29,6 +29,7 @@ public class HomePage extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView4);
         Button createRide = findViewById(R.id.button4);
         Button createDrive = findViewById(R.id.button5);
+        Button allRides = findViewById(R.id.button6);
 
         textView.setText(userEmail);
 
@@ -44,6 +45,14 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, MakeDrive.class);
+                startActivity(intent);
+            }
+        });
+
+        allRides.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, AllRidesList.class);
                 startActivity(intent);
             }
         });
