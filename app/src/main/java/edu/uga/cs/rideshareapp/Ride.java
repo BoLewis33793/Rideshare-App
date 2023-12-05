@@ -1,14 +1,14 @@
 package edu.uga.cs.rideshareapp;
 
 public class Ride {
-    String pickup_location, destination, rider, date, time, id, acceptedBy;
+    String pickup_location, destination, rider, date, time, id, acceptedBy, key;
     int points;
     boolean accepted, driverConfirm, riderConfirm;
     public Ride() {
 
     }
 
-    public Ride(String pickup_location, String destination, String rider, String date, String time, String id, int points) {
+    public Ride(String pickup_location, String destination, String rider, String date, String time, String id, int points, String key) {
         this.pickup_location = pickup_location;
         this.destination = destination;
         this.rider = rider;
@@ -19,6 +19,7 @@ public class Ride {
         this.driverConfirm = false;
         this.riderConfirm = false;
         this.acceptedBy = "";
+        this.key = key;
     }
 
     public String getPickup_location() {
@@ -82,4 +83,8 @@ public class Ride {
     public boolean isRiderConfirm() { return riderConfirm; }
 
     public void setRiderConfirm(boolean riderConfirm) { this.riderConfirm = riderConfirm; }
+
+    public String getKey() { return key; }
+
+    public void setKey(String key) { this.key = key; }
 }

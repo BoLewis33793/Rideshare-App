@@ -21,7 +21,7 @@ public class AllDrivesList extends AppCompatActivity {
     ArrayList<Drive> list;
     DatabaseReference databaseReference;
     DriveAdapter adapter;
-    private static final String TAG = "AllRidesListActivity";
+    private static final String TAG = "AllDrivesListActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,12 @@ public class AllDrivesList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
-                    list.add(drive);
+
+                    if (drive.isAccepted()) {
+                        // Don't add to list
+                    } else {
+                        list.add(drive);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }

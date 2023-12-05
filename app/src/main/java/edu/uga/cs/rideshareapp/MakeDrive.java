@@ -45,7 +45,7 @@ public class MakeDrive extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 String userId = user.getUid();
-                String pickup_location,destination,driver,date,time;
+                String pickup_location,destination,driver,date,time,key;
 
                 driver = userId;
 
@@ -56,12 +56,18 @@ public class MakeDrive extends AppCompatActivity {
 
                 int points = 10;
 
-                Drive newDrive = new Drive(pickup_location,destination,driver,date,time,userId,points);
                 db = FirebaseDatabase.getInstance();
                 reference = db.getReference("Drives");
-                reference.push().setValue(newDrive).addOnCompleteListener(new OnCompleteListener<Void>() {
+                DatabaseReference newReference = reference.push();
+
+                key = newReference.getKey();
+
+                Drive newDrive = new Drive(pickup_location,destination,driver,date,time,userId,points,key);
+
+                newReference.setValue(newDrive).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        Log.d(TAG, "Drive Key: " + newReference.getKey());
                         Log.d(TAG,"Successfully added drive to database.");
                         Intent intent = new Intent(MakeDrive.this, HomePage.class);
                         startActivity(intent);
