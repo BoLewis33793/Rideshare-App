@@ -3,7 +3,7 @@ package edu.uga.cs.rideshareapp;
 public class Ride {
     String pickup_location, destination, rider, date, time, id;
     int points;
-
+    boolean accepted, driverConfirm, riderConfirm;
     public Ride() {
 
     }
@@ -15,6 +15,9 @@ public class Ride {
         this.date = date;
         this.time = time;
         this.points = points;
+        this.accepted = false;
+        this.driverConfirm = false;
+        this.riderConfirm = false;
     }
 
     public String getPickup_location() {
@@ -64,4 +67,16 @@ public class Ride {
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public String getRider() { return rider; }
+
+    public void setRider(String rider) { this.rider = rider; }
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
+
+    public boolean isAccepted() { return accepted; }
+
+    public void setAccepted(boolean accepted) { this.accepted = accepted; }
 }

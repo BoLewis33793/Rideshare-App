@@ -4,6 +4,8 @@ public class Drive {
     String pickup_location, destination, driver, date, time, id;
     int points;
 
+    boolean accepted, driverConfirm, riderConfirm;
+
     public Drive() {
 
     }
@@ -15,15 +17,16 @@ public class Drive {
         this.date = date;
         this.time = time;
         this.points = points;
+        this.accepted = false;
+        this.driverConfirm = false;
+        this.riderConfirm = false;
     }
 
     public String getPickup_location() {
         return pickup_location;
     }
 
-    public void setPickup_location(String pickup_location) {
-        this.pickup_location = pickup_location;
-    }
+    public void setPickup_location(String pickup_location) { this.pickup_location = pickup_location; }
 
     public String getDestination() {
         return destination;
@@ -61,7 +64,13 @@ public class Drive {
         return points;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
+    public void setPoints(int points) { this.points = points; }
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
+
+    public boolean isAccepted() { return accepted; }
+
+    public void setAccepted(boolean accepted) { this.accepted = accepted; }
 }
