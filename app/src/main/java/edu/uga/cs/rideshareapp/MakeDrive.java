@@ -17,9 +17,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MakeRide extends AppCompatActivity {
+public class MakeDrive extends AppCompatActivity {
 
-    private static final String TAG = "MakeRideActivity";
+    private static final String TAG = "MakeDriveActivity";
     private FirebaseAuth mAuth;
     FirebaseDatabase db;
     DatabaseReference reference;
@@ -27,7 +27,7 @@ public class MakeRide extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make_ride);
+        setContentView(R.layout.activity_make_drive);
 
         EditText dateView, timeView, pickup_locationView, destinationView;
 
@@ -45,9 +45,9 @@ public class MakeRide extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 String userId = user.getUid();
-                String pickup_location,destination,rider,date,time;
+                String pickup_location,destination,driver,date,time;
 
-                rider = userId;
+                driver = userId;
 
                 pickup_location = pickup_locationView.getText().toString();
                 destination = destinationView.getText().toString();
@@ -56,14 +56,14 @@ public class MakeRide extends AppCompatActivity {
 
                 int points = 10;
 
-                Ride newRide = new Ride(pickup_location,destination,rider,date,time,userId,points);
+                Drive newDrive = new Drive(pickup_location,destination,driver,date,time,userId,points);
                 db = FirebaseDatabase.getInstance();
-                reference = db.getReference("Rides");
-                reference.push().setValue(newRide).addOnCompleteListener(new OnCompleteListener<Void>() {
+                reference = db.getReference("Drives");
+                reference.push().setValue(newDrive).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Log.d(TAG,"Successfully added ride to database.");
-                        Intent intent = new Intent(MakeRide.this, HomePage.class);
+                        Log.d(TAG,"Successfully added drive to database.");
+                        Intent intent = new Intent(MakeDrive.this, HomePage.class);
                         startActivity(intent);
                     }
                 });

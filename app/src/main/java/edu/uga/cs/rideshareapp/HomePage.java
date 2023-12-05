@@ -27,14 +27,23 @@ public class HomePage extends AppCompatActivity {
         String userEmail = user.getEmail();
 
         TextView textView = findViewById(R.id.textView4);
-        Button button = findViewById(R.id.button4);
+        Button createRide = findViewById(R.id.button4);
+        Button createDrive = findViewById(R.id.button5);
 
         textView.setText(userEmail);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        createRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, MakeRide.class);
+                startActivity(intent);
+            }
+        });
+
+        createDrive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, MakeDrive.class);
                 startActivity(intent);
             }
         });

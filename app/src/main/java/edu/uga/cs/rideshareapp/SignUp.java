@@ -23,13 +23,16 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignUp extends AppCompatActivity {
 
     EditText editTextEmail, editTextPassword, editTextFirstName, editTextLastName;
+    String email, password, first_name, last_name, type;
     Boolean switchState;
     Switch userType;
     String id;
     Button signUpButton;
+    Boolean complete = false;
     private static final String TAG = "SignUpActivity";
     private FirebaseAuth mAuth;
     FirebaseDatabase db;
+    FirebaseAuth.AuthStateListener mAuthStateListener;
     DatabaseReference reference;
 
     @Override
@@ -51,8 +54,6 @@ public class SignUp extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email, password, first_name, last_name, type;
-
                 email = editTextEmail.getText().toString();
                 password = editTextPassword.getText().toString();
                 first_name = editTextFirstName.getText().toString();
@@ -66,10 +67,7 @@ public class SignUp extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "createUserWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-
-                                    Intent intent = new Intent(SignUp.this, HomePage.class);
-                                    startActivity(intent);
+                                    addUser();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -78,27 +76,29 @@ public class SignUp extends AppCompatActivity {
                                 }
                             }
                         });
-
-                id = mAuth.getCurrentUser().getUid();
-                String userType;
-
-                if (switchState == true) {
-                    userType = "driver";
-                } else {
-                    userType = "rider";
-                }
-
-                User newUser = new User(id,userType,first_name,last_name);
-                db = FirebaseDatabase.getInstance();
-                reference = db.getReference("Users");
-                reference.child(id).setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d(TAG,"Successfully added user to database.");
-                    }
-                });
             }
         });
+    }
+    public void addUser() {
+        id = mAuth.getCurrentUser().getUid();
+        String userType;
 
+        if (switchState == true) {
+            userType = "driver";
+        } else {
+            userType = "rider";
+        }
+
+        User newUser = new User(id, userType, first_name, last_name);
+        db = FirebaseDatabase.getInstance();
+        reference = db.getReference("Users");
+        reference.child(id).setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d(TAG, "Successfully added user to database.");
+            }
+        });
+        Intent intent = new Intent(SignUp.this, HomePage.class);
+        startActivity(intent);
     }
 }
