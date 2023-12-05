@@ -69,7 +69,8 @@ public class DriveAdapter extends RecyclerView.Adapter<DriveAdapter.MyViewHolder
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Drives");
 
-                    DatabaseReference newReference = db.getReference("Accepted-Drives");
+
+                    DatabaseReference newReference = db.getReference("Accepted-Rides");
                     DatabaseReference finalReference = newReference.push();
 
                     reference.child(drive.getKey()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -81,12 +82,28 @@ public class DriveAdapter extends RecyclerView.Adapter<DriveAdapter.MyViewHolder
 
                     String key = finalReference.getKey();
 
+
                     drive.setKey(key);
-                    finalReference.setValue(drive).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    Ride ride = new Ride();
+
+                    ride.setPickup_location(drive.getPickup_location());
+                    ride.setDestination(drive.getDestination());
+                    ride.setRider(drive.getAcceptedBy());
+                    ride.setDate(drive.getDate());
+                    ride.setTime(drive.getTime());
+                    ride.setPoints(drive.getPoints());
+                    ride.setAccepted(drive.isAccepted());
+                    ride.setDriverConfirm(drive.isDriverConfirm());
+                    ride.setRiderConfirm(drive.isRiderConfirm());
+                    ride.setAcceptedBy(drive.getDriver());
+                    ride.setKey(drive.getKey());
+
+                    finalReference.setValue(ride).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Log.d(TAG, "Drive Key: " + finalReference.getKey());
-                            Log.d(TAG,"Successfully added drive to accepted database.");
+                            Log.d(TAG, "Accepted-Ride Key: " + finalReference.getKey());
+                            Log.d(TAG,"Successfully added ride to accepted database.");
                             Intent intent = new Intent(context, AllDrivesList.class);
                             context.startActivity(intent);
                         }
@@ -110,7 +127,7 @@ public class DriveAdapter extends RecyclerView.Adapter<DriveAdapter.MyViewHolder
             departure = itemView.findViewById(R.id.textDeparture);
             date = itemView.findViewById(R.id.textDate);
             time = itemView.findViewById(R.id.textTime);
-            acceptButton = itemView.findViewById(R.id.acceptButton);
+            acceptButton = itemView.findViewById(R.id.confirmButton);
         }
     }
 }
