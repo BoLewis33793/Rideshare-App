@@ -66,7 +66,17 @@ public class EditDrivesAdapter extends RecyclerView.Adapter<EditDrivesAdapter.My
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, EditDrive.class);
+                db = FirebaseDatabase.getInstance();
+                reference = db.getReference("Drives");
+
+                reference.child(drive.getKey()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d(TAG, "Successfully removed ride.");
+                    }
+                });
+
+                Intent intent = new Intent(context, EditDrivesList.class);
                 context.startActivity(intent);
             }
         });
