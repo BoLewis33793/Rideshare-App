@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 public class AllDrivesList extends AppCompatActivity {
     RecyclerView recyclerView;
-    ArrayList<Ride> list;
+    ArrayList<Drive> list;
     DatabaseReference databaseReference;
-    MyAdapter adapter;
+    DriveAdapter adapter;
     private static final String TAG = "AllRidesListActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class AllDrivesList extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Drives");
         list = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyAdapter(this, list);
+        adapter = new DriveAdapter(this, list);
         recyclerView.setAdapter(adapter);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -39,7 +39,7 @@ public class AllDrivesList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
-                    // list.add(drive);
+                    list.add(drive);
                 }
                 adapter.notifyDataSetChanged();
             }

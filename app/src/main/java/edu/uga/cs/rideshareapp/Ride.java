@@ -1,7 +1,7 @@
 package edu.uga.cs.rideshareapp;
 
 public class Ride {
-    String pickup_location, destination, rider, date, time, id;
+    String pickup_location, destination, rider, date, time, id, acceptedBy;
     int points;
     boolean accepted, driverConfirm, riderConfirm;
     public Ride() {
@@ -18,15 +18,14 @@ public class Ride {
         this.accepted = false;
         this.driverConfirm = false;
         this.riderConfirm = false;
+        this.acceptedBy = "";
     }
 
     public String getPickup_location() {
         return pickup_location;
     }
 
-    public void setPickup_location(String pickup_location) {
-        this.pickup_location = pickup_location;
-    }
+    public void setPickup_location(String pickup_location) { this.pickup_location = pickup_location; }
 
     public String getDestination() {
         return destination;
@@ -34,14 +33,6 @@ public class Ride {
 
     public void setDestination(String destination) {
         this.destination = destination;
-    }
-
-    public String getDriver() {
-        return rider;
-    }
-
-    public void setDriver(String driver) {
-        this.rider = driver;
     }
 
     public String getDate() {
@@ -79,4 +70,16 @@ public class Ride {
     public boolean isAccepted() { return accepted; }
 
     public void setAccepted(boolean accepted) { this.accepted = accepted; }
+
+    public String getAcceptedBy() { return acceptedBy; }
+
+    public void setAcceptedBy(String acceptedBy) { this.acceptedBy = acceptedBy; }
+
+    public boolean isDriverConfirm() { return driverConfirm; }
+
+    public void setDriverConfirm(boolean driverConfirm) { this.driverConfirm = driverConfirm; }
+
+    public boolean isRiderConfirm() { return riderConfirm; }
+
+    public void setRiderConfirm(boolean riderConfirm) { this.riderConfirm = riderConfirm; }
 }
