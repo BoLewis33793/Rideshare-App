@@ -70,10 +70,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Rides");
-                    reference.child(ride.getKey()).setValue(ride).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    DatabaseReference newReference = db.getReference("Accepted-Rides");
+                    DatabaseReference finalReference = newReference.push();
+
+                    reference.child(ride.getKey()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Log.d(TAG, "Successfully updated except state of ride.");
+                            Log.d(TAG, "Successfully removed ride.");
+                        }
+                    });
+
+                    String key = finalReference.getKey();
+
+                    ride.setKey(key);
+                    finalReference.setValue(ride).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Log.d(TAG, "Ride Key: " + finalReference.getKey());
+                            Log.d(TAG,"Successfully added ride to accepted database.");
                             Intent intent = new Intent(context, AllRidesList.class);
                             context.startActivity(intent);
                         }

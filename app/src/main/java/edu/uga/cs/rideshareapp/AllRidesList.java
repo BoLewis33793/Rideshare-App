@@ -40,12 +40,7 @@ public class AllRidesList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     Ride ride = dataSnapshot.getValue(Ride.class);
-
-                    if (ride.isAccepted()) {
-                        // Don't add to list
-                    } else {
-                        list.add(ride);
-                    }
+                    list.add(ride);
                 }
                 adapter.notifyDataSetChanged();
             }
