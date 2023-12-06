@@ -2,6 +2,7 @@ package edu.uga.cs.rideshareapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +39,10 @@ public class EditDrive extends AppCompatActivity {
         timeView = findViewById(R.id.editTextTime);
         pickup_locationView = findViewById(R.id.editTextText1);
         destinationView = findViewById(R.id.editTextText2);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 

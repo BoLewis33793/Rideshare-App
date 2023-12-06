@@ -2,6 +2,7 @@ package edu.uga.cs.rideshareapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,10 @@ public class ProfileMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_menu);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         TextView email, firstName, lastName, points;
 
         Button logoutButton = findViewById(R.id.button13);
@@ -40,8 +45,6 @@ public class ProfileMenu extends AppCompatActivity {
         firstName = findViewById(R.id.firstNameTextView);
         lastName = findViewById(R.id.lastNameTextView);
         points = findViewById(R.id.pointsTextView);
-        ImageView menuIcon = findViewById(R.id.menu_icon);
-        menuIcon.setOnClickListener(view -> showPopupMenu(view));
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -57,8 +60,7 @@ public class ProfileMenu extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
+                } else {
                     DataSnapshot dataSnapshot = task.getResult();
                     if (dataSnapshot.exists()) {
                         user = dataSnapshot.getValue(User.class);
@@ -90,23 +92,5 @@ public class ProfileMenu extends AppCompatActivity {
                 finish();
             }
         });
-    }
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.setOnMenuItemClickListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.action_all_rides) {
-                // Intent to start Activity that shows all rides
-                startActivity(new Intent(this, AllRidesList.class));
-                return true;
-            } else if (itemId == R.id.action_view_profile) {
-                // Intent to start Activity that shows profile
-                startActivity(new Intent(this, ProfileMenu.class));
-                return true;
-            }
-            return false;
-        });
-        popupMenu.inflate(R.menu.popup_menu);
-        popupMenu.show();
     }
 }

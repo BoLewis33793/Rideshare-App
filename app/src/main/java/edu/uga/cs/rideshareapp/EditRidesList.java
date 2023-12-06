@@ -2,6 +2,7 @@ package edu.uga.cs.rideshareapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,10 @@ public class EditRidesList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_rides);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -43,9 +48,6 @@ public class EditRidesList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new EditRidesAdapter(this, list);
         recyclerView.setAdapter(adapter);
-        ImageView menuIcon = findViewById(R.id.menu_icon);
-        menuIcon.setOnClickListener(view -> showPopupMenu(view));
-
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -67,23 +69,5 @@ public class EditRidesList extends AppCompatActivity {
 
             }
         });
-    }
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.setOnMenuItemClickListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.action_all_rides) {
-                // Intent to start Activity that shows all rides
-                startActivity(new Intent(this, AllRidesList.class));
-                return true;
-            } else if (itemId == R.id.action_view_profile) {
-                // Intent to start Activity that shows profile
-                startActivity(new Intent(this, ProfileMenu.class));
-                return true;
-            }
-            return false;
-        });
-        popupMenu.inflate(R.menu.popup_menu);
-        popupMenu.show();
     }
 }

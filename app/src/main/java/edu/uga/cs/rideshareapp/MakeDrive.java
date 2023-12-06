@@ -2,6 +2,7 @@ package edu.uga.cs.rideshareapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,10 @@ public class MakeDrive extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_drive);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         EditText dateView, timeView, pickup_locationView, destinationView;
 
@@ -71,6 +76,7 @@ public class MakeDrive extends AppCompatActivity {
                         Log.d(TAG,"Successfully added drive to database.");
                         Intent intent = new Intent(MakeDrive.this, HomePage.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
             }
