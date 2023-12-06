@@ -40,7 +40,6 @@ public class HomePage extends AppCompatActivity {
         Button editDrives = findViewById(R.id.button9);
 
         Button acceptedRides = findViewById(R.id.button11);
-        Button acceptedDrives = findViewById(R.id.button10);
 
         Button profile = findViewById(R.id.button12);
 

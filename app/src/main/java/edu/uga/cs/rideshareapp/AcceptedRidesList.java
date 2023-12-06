@@ -33,7 +33,7 @@ public class AcceptedRidesList extends AppCompatActivity {
         setContentView(R.layout.activity_accepted_rides_list);
 
         recyclerView = findViewById(R.id.recyclerview5);
-        databaseReference = FirebaseDatabase.getInstance().getReference("Rides");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Accepted-Rides");
         list = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AcceptRidesAdapter(this, list);
