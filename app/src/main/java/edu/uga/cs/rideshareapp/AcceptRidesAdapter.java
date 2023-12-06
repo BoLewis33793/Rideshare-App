@@ -57,102 +57,14 @@ public class AcceptRidesAdapter extends RecyclerView.Adapter<AcceptRidesAdapter.
         holder.date.setText(ride.getDate());
         holder.time.setText(ride.getTime());
 
-        user = new User();
-
         if (ride.isRiderConfirm() == true) {
             holder.riderView.setText("Rider has confirmed");
-
-            String userId = firebaseUser.getUid();
-            reference = FirebaseDatabase.getInstance().getReference("Users");
-
-            reference.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    } else {
-                        DataSnapshot dataSnapshot = task.getResult();
-                        if (dataSnapshot.exists()) {
-                            user = dataSnapshot.getValue(User.class);
-                            if (user != null) {
-                                Log.d("firebase", "Received Ride object: " + user.toString());
-                            } else {
-                                Log.e("firebase", "Failed to convert dataSnapshot to Ride object");
-                            }
-                        } else {
-                            Log.d("firebase", "Data does not exist at the specified location");
-                        }
-                    }
-                }
-            });
-
-            int userPoints = user.getPoints();
-            int ridePoints = ride.getPoints();
-
-            int finalPoints = userPoints - ridePoints;
-
-            user.setPoints(finalPoints);
-
-            reference.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "Successfully changed user points");
-                    } else {
-                        Log.d(TAG, "Failed to change user points");
-                    }
-                }
-            });
-
         } else {
             holder.riderView.setText("Rider has not confirmed");
         }
 
         if (ride.isDriverConfirm() == true) {
             holder.driverView.setText("Driver has confirmed");
-            String userId = firebaseUser.getUid();
-            reference = FirebaseDatabase.getInstance().getReference("Users");
-
-            reference.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    } else {
-                        DataSnapshot dataSnapshot = task.getResult();
-                        if (dataSnapshot.exists()) {
-                            user = dataSnapshot.getValue(User.class);
-                            if (user != null) {
-                                Log.d("firebase", "Received Ride object: " + user.toString());
-                            } else {
-                                Log.e("firebase", "Failed to convert dataSnapshot to Ride object");
-                            }
-                        } else {
-                            Log.d("firebase", "Data does not exist at the specified location");
-                        }
-                    }
-                }
-            });
-
-            int userPoints = user.getPoints();
-            int ridePoints = ride.getPoints();
-
-            int finalPoints = userPoints + ridePoints;
-
-            user.setPoints(finalPoints);
-
-            reference.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "Successfully changed user points");
-                    } else {
-                        Log.d(TAG, "Failed to change user points");
-                    }
-                }
-            });
-
-
         } else {
             holder.driverView.setText("Driver has not confirmed");
         }
