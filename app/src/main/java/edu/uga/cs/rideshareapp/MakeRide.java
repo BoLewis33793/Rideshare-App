@@ -19,6 +19,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Random;
+
 public class MakeRide extends AppCompatActivity {
 
     private static final String TAG = "MakeRideActivity";
@@ -60,7 +62,9 @@ public class MakeRide extends AppCompatActivity {
                 date = dateView.getText().toString();
                 time = timeView.getText().toString();
 
-                int points = 10;
+                int result = chooseRandomValue();
+
+                int points = result;
 
                 db = FirebaseDatabase.getInstance();
                 reference = db.getReference("Rides");
@@ -82,5 +86,16 @@ public class MakeRide extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public static int chooseRandomValue() {
+        Random random = new Random();
+        int[] values = {50, 75, 100};
+
+        // Generate a random index to choose from the array
+        int randomIndex = random.nextInt(values.length);
+
+        // Return the chosen value
+        return values[randomIndex];
     }
 }

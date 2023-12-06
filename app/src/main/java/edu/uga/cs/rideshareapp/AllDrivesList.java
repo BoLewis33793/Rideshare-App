@@ -32,10 +32,6 @@ public class AllDrivesList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_drives_list);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         recyclerView = findViewById(R.id.recyclerview2);
         databaseReference = FirebaseDatabase.getInstance().getReference("Drives");
         list = new ArrayList<>();
@@ -58,5 +54,8 @@ public class AllDrivesList extends AppCompatActivity {
 
             }
         });
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

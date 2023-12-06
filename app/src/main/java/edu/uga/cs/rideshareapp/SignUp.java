@@ -27,7 +27,6 @@ public class SignUp extends AppCompatActivity {
     EditText editTextEmail, editTextPassword, editTextFirstName, editTextLastName;
     String email, password, first_name, last_name, type;
     Boolean switchState;
-    Switch userType;
     String id;
     Button signUpButton;
     Boolean complete = false;
@@ -49,8 +48,6 @@ public class SignUp extends AppCompatActivity {
         editTextFirstName = findViewById(R.id.editTextFirstName);
         editTextLastName = findViewById(R.id.editTextLastName);
 
-        userType = findViewById(R.id.switch1);
-
         signUpButton = findViewById(R.id.submitButton);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +57,6 @@ public class SignUp extends AppCompatActivity {
                 password = editTextPassword.getText().toString();
                 first_name = editTextFirstName.getText().toString();
                 last_name = editTextLastName.getText().toString();
-                switchState = userType.isChecked();
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -97,13 +93,7 @@ public class SignUp extends AppCompatActivity {
     }
     public void addUser() {
         id = mAuth.getCurrentUser().getUid();
-        String userType;
-
-        if (switchState == true) {
-            userType = "driver";
-        } else {
-            userType = "rider";
-        }
+        String userType = "customer";
 
         User newUser = new User(id, userType, first_name, last_name);
         db = FirebaseDatabase.getInstance();

@@ -10,7 +10,7 @@ public class User {
 
     public User(String id, String type, String first_name, String last_name) {
         this.id = id;
-        this.points = 0;
+        this.points = 300;
         this.type = type;
         this.first_name = first_name;
         this.last_name = last_name;

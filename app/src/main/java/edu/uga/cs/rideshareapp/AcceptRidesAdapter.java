@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,6 +32,7 @@ public class AcceptRidesAdapter extends RecyclerView.Adapter<AcceptRidesAdapter.
     FirebaseAuth mAuth;
     FirebaseDatabase db;
     DatabaseReference reference;
+    User user;
 
     public AcceptRidesAdapter(Context context, ArrayList<Ride> list) {
         this.context = context;
@@ -48,7 +50,7 @@ public class AcceptRidesAdapter extends RecyclerView.Adapter<AcceptRidesAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Ride ride = list.get(position);
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
         holder.departure.setText(ride.getPickup_location());
         holder.destination.setText(ride.getDestination());
@@ -57,12 +59,98 @@ public class AcceptRidesAdapter extends RecyclerView.Adapter<AcceptRidesAdapter.
 
         if (ride.isRiderConfirm() == true) {
             holder.riderView.setText("Rider has confirmed");
+
+            String userId = firebaseUser.getUid();
+            reference = FirebaseDatabase.getInstance().getReference("Users");
+
+            reference.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        DataSnapshot dataSnapshot = task.getResult();
+                        if (dataSnapshot.exists()) {
+                            user = dataSnapshot.getValue(User.class);
+                            if (user != null) {
+                                Log.d("firebase", "Received Ride object: " + user.toString());
+                            } else {
+                                Log.e("firebase", "Failed to convert dataSnapshot to Ride object");
+                            }
+                        } else {
+                            Log.d("firebase", "Data does not exist at the specified location");
+                        }
+                    }
+                }
+            });
+
+            int userPoints = user.getPoints();
+            int ridePoints = ride.getPoints();
+
+            int finalPoints = userPoints - ridePoints;
+
+            user.setPoints(finalPoints);
+
+            reference.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "Successfully changed user points");
+                    } else {
+                        Log.d(TAG, "Failed to change user points");
+                    }
+                }
+            });
+
         } else {
             holder.riderView.setText("Rider has not confirmed");
         }
 
         if (ride.isDriverConfirm() == true) {
             holder.driverView.setText("Driver has confirmed");
+            String userId = firebaseUser.getUid();
+            reference = FirebaseDatabase.getInstance().getReference("Users");
+
+            reference.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        DataSnapshot dataSnapshot = task.getResult();
+                        if (dataSnapshot.exists()) {
+                            user = dataSnapshot.getValue(User.class);
+                            if (user != null) {
+                                Log.d("firebase", "Received Ride object: " + user.toString());
+                            } else {
+                                Log.e("firebase", "Failed to convert dataSnapshot to Ride object");
+                            }
+                        } else {
+                            Log.d("firebase", "Data does not exist at the specified location");
+                        }
+                    }
+                }
+            });
+
+            int userPoints = user.getPoints();
+            int ridePoints = ride.getPoints();
+
+            int finalPoints = userPoints + ridePoints;
+
+            user.setPoints(finalPoints);
+
+            reference.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "Successfully changed user points");
+                    } else {
+                        Log.d(TAG, "Failed to change user points");
+                    }
+                }
+            });
+
+
         } else {
             holder.driverView.setText("Driver has not confirmed");
         }
@@ -70,7 +158,7 @@ public class AcceptRidesAdapter extends RecyclerView.Adapter<AcceptRidesAdapter.
         holder.riderConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((user.getUid()).equals(ride.getRider())) {
+                if ((firebaseUser.getUid()).equals(ride.getRider())) {
                     ride.setRiderConfirm(true);
 
                     db = FirebaseDatabase.getInstance();
@@ -99,7 +187,7 @@ public class AcceptRidesAdapter extends RecyclerView.Adapter<AcceptRidesAdapter.
         holder.driverConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((user.getUid()).equals(ride.getAcceptedBy())) {
+                if ((firebaseUser.getUid()).equals(ride.getAcceptedBy())) {
                     ride.setDriverConfirm(true);
 
                     db = FirebaseDatabase.getInstance();

@@ -33,10 +33,6 @@ public class AllRidesList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_rides_list);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         recyclerView = findViewById(R.id.recyclerview);
         databaseReference = FirebaseDatabase.getInstance().getReference("Rides");
         list = new ArrayList<>();
@@ -59,5 +55,8 @@ public class AllRidesList extends AppCompatActivity {
 
             }
         });
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
