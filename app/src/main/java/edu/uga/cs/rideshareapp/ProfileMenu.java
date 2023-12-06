@@ -70,9 +70,9 @@ public class ProfileMenu extends AppCompatActivity {
                             // Now you have the Ride object, you can use it as needed
                             // For example, update your UI with the data from the Ride object
                             email.setText(userEmail);
-                            firstName.setText(user.getFirst_name());
-                            lastName.setText(user.getLast_name());
-                            points.setText(String.valueOf(user.getPoints()));
+                            firstName.setText("First Name: " + user.getFirst_name());
+                            lastName.setText("Last Name: " + user.getLast_name());
+                            points.setText("Points: " + String.valueOf(user.getPoints()));
                         } else {
                             Log.e("firebase", "Failed to convert dataSnapshot to Ride object");
                         }
