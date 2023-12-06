@@ -57,6 +57,8 @@ public class AcceptRidesAdapter extends RecyclerView.Adapter<AcceptRidesAdapter.
         holder.date.setText(ride.getDate());
         holder.time.setText(ride.getTime());
 
+        user = new User();
+
         if (ride.isRiderConfirm() == true) {
             holder.riderView.setText("Rider has confirmed");
 
